@@ -3,39 +3,26 @@
     "baseUrl": ".",
     "module": "ESNext",
     "target": "es2016",
-    "lib": [
-      "DOM",
-      "ESNext"
-    ],
+    "lib": ["DOM", "ESNext"],
     "strict": true,
     "esModuleInterop": true,
     "incremental": false,
     "skipLibCheck": true,
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "noUnusedLocals": true,
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
     "types": [
       "vite/client",
-      "vite-plugin-pages/client",
+      "vite-plugin-vue-layouts/client.d.ts",
       "unplugin-vue-macros/macros-global",
-      "@vue-macros/reactivity-transform/macros-global",
+      "@vue-macros/reactivity-transform/macros-global"
     ],
     "paths": {
-      "~/*": [
-        "src/*"
-      ]
+      "~/*": ["src/*"]
     }
   },
-  "include": [
-    "src/**/*",
-    "./auto-imports.d.ts",
-    "./components.d.ts",
-    "types/**/*"
-  ],
-  "exclude": [
-    "dist",
-    "node_modules"
-  ]
+  "include": ["src/**/*", "./auto-imports.d.ts", "./components.d.ts", "types/**/*"],
+  "exclude": ["dist", "node_modules"]
 }

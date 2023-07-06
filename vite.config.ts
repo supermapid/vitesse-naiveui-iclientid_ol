@@ -1,22 +1,24 @@
-import path from "path"
+import path from "node:path"
 import { defineConfig } from "vite"
 import Vue from "@vitejs/plugin-vue"
-import Pages from "vite-plugin-pages"
 import Components from "unplugin-vue-components/vite"
 import AutoImport from "unplugin-auto-import/vite"
 import { NaiveUiResolver } from "unplugin-vue-components/resolvers"
-import { viteExternalsPlugin } from "vite-plugin-externals"
 import Unocss from "unocss/vite"
 import VueMacros from "unplugin-vue-macros/vite"
+import VueRouter from "unplugin-vue-router/vite"
+import { VueRouterAutoImports } from "unplugin-vue-router"
 import VueDevTools from "vite-plugin-vue-devtools"
+
+// @ts-expect-error actually it's there
+import Layouts from "vite-plugin-vue-layouts"
 
 export default defineConfig({
   build: {
     rollupOptions: {
       output: {
         manualChunks: {
-          ol: ["ol"],
-          "iclient-ol": ["@supermap/iclient-ol"]
+          ol: ["ol"]
         }
       }
     }
@@ -30,7 +32,7 @@ export default defineConfig({
     VueDevTools(),
     VueMacros({
       defineOptions: false,
-      defineModels: false,
+      defineModels: true,
       plugins: {
         vue: Vue({
           script: {
@@ -41,12 +43,17 @@ export default defineConfig({
       }
     }),
 
-    // https://github.com/hannoeru/vite-plugin-pages
-    Pages(),
+    VueRouter({
+      dts: "./src/typed-router.d.ts"
+    }),
+
+    Layouts({
+      layoutsDirs: "./src/layouts"
+    }),
 
     // https://github.com/antfu/unplugin-auto-import
     AutoImport({
-      imports: ["vue", "vue-router", "@vueuse/core"],
+      imports: ["vue", VueRouterAutoImports, "@vueuse/core"],
       dts: "src/auto-imports.d.ts",
       dirs: ["./src/composables"],
       vueTemplate: true
@@ -56,27 +63,10 @@ export default defineConfig({
     Components({
       resolvers: [NaiveUiResolver()],
       dts: "src/components.d.ts",
-      dirs: ["./src/components/", "./src/layouts/"],
+      dirs: ["./src/components/"],
       deep: true
     }),
-    Unocss(),
-
-    // https://github.com/antfu/unocss
-    viteExternalsPlugin(
-      {
-        echarts: "function(){try{return echarts}catch(e){return {}}}()",
-        mapv: "function(){try{return mapv}catch(e){return {}}}()",
-        elasticsearch: "function(){try{return elasticsearch}catch(e){return {}}}()",
-        "@tensorflow/tfjs": "function(){try{return tf}catch(e){return {}}}()",
-        "@turf/turf": "function(){try{return turf}catch(e){return {}}}()",
-        "deck.gl": "(function(){try{return DeckGL}catch(e){return {}}})()",
-        "luma.gl": "(function(){try{return luma}catch(e){return {}}})()",
-        "webgl-debug": "(function(){try{return webgl-debug}catch(e){return {}}})()",
-        xlsx: "function(){try{return XLSX}catch(e){return {}}}()",
-        jsonsql: "function(){try{return jsonsql}catch(e){return {}}}()"
-      },
-      { useWindow: false }
-    )
+    Unocss()
   ],
 
   optimizeDeps: {

@@ -1,14 +1,10 @@
 <script setup lang="ts">
-import { useMessage, useNotification } from "naive-ui"
+import { useDialog, useLoadingBar, useMessage, useNotification } from "naive-ui"
 
-
-window.$notification = useNotification()
+window.$dialog = useDialog()
+window.$loading = useLoadingBar()
 window.$message = useMessage()
-
-onMounted(() => {
-  window.$notification = useNotification()
-  window.$message = useMessage()
-})
+window.$notification = useNotification()
 </script>
 
 <template>

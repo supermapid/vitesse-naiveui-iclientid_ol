@@ -13,6 +13,7 @@ const FULL_VIEW = {
   projection: "EPSG:4326"
 }
 
+// @ts-expect-error placeholder if needed
 function goToFullExtent() {
   if (map.value == null) {
     return
@@ -29,7 +30,7 @@ onMounted(() => {
 
   const osmBasemap = new TileLayer({
     source: new OSM(),
-    preload: Infinity,
+    preload: Number.POSITIVE_INFINITY,
     visible: true
   })
   map.value.addLayer(osmBasemap)
@@ -37,7 +38,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div id="map" class="absolute w-full h-full" ref="mapRef"></div>
+  <div id="map" ref="mapRef" class="absolute w-full h-full"></div>
 </template>
 
 <style>

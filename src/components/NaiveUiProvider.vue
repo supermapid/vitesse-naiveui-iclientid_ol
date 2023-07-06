@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useCssVar } from "@vueuse/core"
 import type { GlobalThemeOverrides } from "naive-ui"
-import { NMessageProvider, NNotificationProvider } from "naive-ui"
+import { NDialogProvider, NMessageProvider, NNotificationProvider } from "naive-ui"
 
 const themeOverrides: GlobalThemeOverrides = {
   common: {
@@ -9,7 +9,7 @@ const themeOverrides: GlobalThemeOverrides = {
     primaryColorHover: useCssVar("--primary-color-hover").value,
     primaryColorPressed: useCssVar("--primary-color-pressed").value,
     borderRadius: "0.7rem",
-    fontFamily: `"Inter Variable", sans-serif`
+    fontFamily: "\"Inter Variable\", sans-serif"
   },
   DataTable: {
     fontSizeSmall: "12px",
@@ -44,7 +44,9 @@ const themeOverrides: GlobalThemeOverrides = {
     <NLoadingBarProvider>
       <NNotificationProvider>
         <NMessageProvider>
-          <slot></slot>
+          <NDialogProvider>
+            <slot></slot>
+          </NDialogProvider>
         </NMessageProvider>
       </NNotificationProvider>
     </NLoadingBarProvider>
